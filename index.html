@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABODES Connect Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            background-image: url('avatar-man-and-house-design-under-construction-work-repair-progress-reconstruction-industry-and-build-theme-vector-illustration-W005RE.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #333;
+        }
+
+        header, footer {
+            text-align: center;
+            color: white;
+            padding: 1em;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        header img {
+            width: 150px;
+            height: auto;
+        }
+
+        main {
+            flex: 1;
+            padding: 1em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+        }
+
+        #login-form, #signup-form, #user-info, #order-form, #success-page, #user-info-section, #order-detail, #receipt, #settings, #disclaimer {
+            background: #ffffff;
+            padding: 2em;
+            border-radius: 8px;
+            max-width: 500px;
+            margin: 1em auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 0.5em;
+            font-weight: bold;
+        }
+
+        input, select, textarea, button {
+            margin-bottom: 1em;
+            padding: 0.5em;
+            font-size: 1em;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 0.75em;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step-active {
+            display: block;
+        }
+
+        #updates {
+            margin-top: 2em;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        #updates-content {
+            background: #e9ecef;
+            padding: 1em;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .success-message {
+            text-align: center;
+        }
+
+        .success-message i {
+            font-size: 4em;
+            color: #4CAF50;
+        }
+
+        .menu-button {
+            background-color: #333;
+            color: white;
+            padding: 1em;
+            border: none;
+            cursor: pointer;
+            position: fixed;
+            top: 1em;
+            right: 1em;
+            border-radius: 8px;
+        }
+
+        .menu {
+            display: none;
+            position: fixed;
+            top: 4em;
+            right: 1em;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .menu a {
+            display: block;
+            padding: 1em;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+        }
+
+        .menu a:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="Picture1.png" alt="ABODES Connect">
+        <h1>Welcome to ABODES Connect</h1>
+    </header>
+    <button class="menu-button" onclick="toggleMenu()">Menu</button>
+    <nav class="menu" id="menu">
+        <a href="#" onclick="showSection('user-info-section')">User information</a>
+        <a href="#" onclick="showSection('order-detail')">Order detail</a>
+        <a href="#" onclick="showSection('receipt')">Receipt</a>
+        <a href="#" onclick="showSection('settings')">Setting</a>
+        <a href="#" onclick="showSection('disclaimer')">Disclaimer</a>
+    </nav>
+    <main>
+        <section id="welcome-page">
+            <h2>Please LOGIN to get started</h2>
+            <button onclick="showLoginPage()">Get Started</button>
+        </section>
+        <section id="login-form" class="hidden">
+            <h2>User Login</h2>
+            <form id="login">
+                <label for="login-email">Email:</label>
+                <input type="email" id="login-email" name="email" required>
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" name="password" required>
+                <button type="button" onclick="loginUser()">Login</button>
+                <p>Don't have an account? <a href="#" onclick="showSignupPage()">Sign up</a></p>
+            </form>
+        </section>
+        <section id="signup-form" class="hidden">
+            <h2>New User Signup</h2>
+            <form id="signup">
+                <label for="signup-fullname">Full Name:</label>
+                <input type="text" id="signup-fullname" name="fullname" required>
+                <label for="signup-email">Email:</label>
+                <input type="email" id="signup-email" name="email" required>
+                <label for="signup-password">Password:</label>
+                <input type="password" id="signup-password" name="password" required>
+                <button type="button" onclick="signupUser()">Sign Up</button>
+            </form>
+        </section>
+        <section id="user-info" class="hidden">
+            <h2>Registered User Information</h2>
+            <p id="user-details"></p>
+            <button onclick="showSubscriptionForm()">Start Ordering</button>
+        </section>
+        <section id="subscription-form" class="hidden">
+            <h2>Customize Your Service Order</h2>
+            <form id="form">
+                <div class="form-step form-step-active">
+                    <label for="service">Select Service:</label>
+                    <select id="service" name="service" required>
+                        <option value="cleaning">Cleaning</option>
+                        <option value="maintenance">Maintenance</option>
+                        <option value="plumbing">Plumbing</option>
+                        <option value="electrical">Electrical</option>
+                        <option value="emergency">Emergency Services</option>
+                    </select>
+                    <button type="button" class="btn-next">Next</button>
+                </div>
+                <div class="form-step">
+                    <label for="frequency">Frequency:</label>
+                    <select id="frequency" name="frequency" required>
+                        <option value="one-time">One-time</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                    <button type="button" class="btn-prev">Previous</button>
+                    <button type="button" class="btn-next">Next</button>
+                </div>
+                <div class="form-step">
+                    <label for="address">Service Address:</label>
+                    <input type="text" id="address" name="address" required>
+                    <button type="button" class="btn-prev">Previous</button>
+                    <button type="button" class="btn-next">Next</button>
+                </div>
+                <div class="form-step">
+                    <label for="payment">Payment Method:</label>
+                    <input type="text" id="payment" name="payment" required>
+                    <button type="button" class="btn-prev">Previous</button>
+                    <button type="button" class="btn-next">Next</button>
+                </div>
+                <div class="form-step">
+                    <label for="service-details">Service Details:</label>
+                    <textarea id="service-details" name="service-details" rows="4" required placeholder="Provide additional details about the service required..."></textarea>
+                    <label for="preferred-date">Preferred Date:</label>
+                    <input type="date" id="preferred-date" name="preferred-date" required>
+                    <label for="preferred-time">Preferred Time:</label>
+                    <input type="time" id="preferred-time" name="preferred-time" required>
+                    <button type="button" class="btn-prev">Previous</button>
+                    <button type="button" class="btn-next">Next</button>
+                </div>
+                <div class="form-step">
+                    <label for="fullname">Full Name:</label>
+                    <input type="text" id="fullname" name="fullname" required>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" id="dob" name="dob" required>
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <button type="button" class="btn-prev">Previous</button>
+                    <button type="submit">Subscribe</button>
+                </div>
+            </form>
+        </section>
+        <section id="updates" class="hidden">
+            <h2>Real-Time Updates</h2>
+            <div id="updates-content"></div>
+        </section>
+        <section id="success-page" class="hidden">
+            <div class="success-message">
+                <i class="fas fa-thumbs-up"></i>
+                <h2>Order Successful!</h2>
+                <p>Thank you for ordering our service! We will keep in touch soon.</p>
+            </div>
+        </section>
+        <section id="user-info-section" class="hidden">
+            <h2>User Information</h2>
+            <p>Details about the user will be displayed here.</p>
+        </section>
+        <section id="order-detail" class="hidden">
+            <h2>Order Detail</h2>
+            <p>Details about the order will be displayed here.</p>
+        </section>
+        <section id="receipt" class="hidden">
+            <h2>Receipt</h2>
+            <p>Details about the receipt will be displayed here.</p>
+        </section>
+        <section id="settings" class="hidden">
+            <h2>Settings</h2>
+            <p>Settings can be configured here.</p>
+        </section>
+        <section id="disclaimer" class="hidden">
+            <h2>Disclaimer</h2>
+            <p>Disclaimer information will be displayed here.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 ABODES Connect. All rights reserved.</p>
+    </footer>
+    <script>
+        const welcomePage = document.getElementById('welcome-page');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const userInfo = document.getElementById('user-info');
+        const subscriptionForm = document.getElementById('subscription-form');
+        const updates = document.getElementById('updates');
+        const successPage = document.getElementById('success-page');
+        const menu = document.getElementById('menu');
+        const sections = {
+            'user-info-section': document.getElementById('user-info-section'),
+            'order-detail': document.getElementById('order-detail'),
+            'receipt': document.getElementById('receipt'),
+            'settings': document.getElementById('settings'),
+            'disclaimer': document.getElementById('disclaimer')
+        };
+
+        function showLoginPage() {
+            welcomePage.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+        }
+
+        function showSignupPage() {
+            loginForm.classList.add('hidden');
+            signupForm.classList.remove('hidden');
+        }
+
+        function loginUser() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if (email && password) {
+                document.getElementById('user-details').innerHTML = `
+                    <p>Email: ${email}</p>
+                `;
+                loginForm.classList.add('hidden');
+                userInfo.classList.remove('hidden');
+            }
+        }
+
+        function signupUser() {
+            const fullname = document.getElementById('signup-fullname').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+
+            if (fullname && email && password) {
+                document.getElementById('user-details').innerHTML = `
+                    <p>Full Name: ${fullname}</p>
+                    <p>Email: ${email}</p>
+                `;
+                signupForm.classList.add('hidden');
+                userInfo.classList.remove('hidden');
+            }
+        }
+
+        function showSubscriptionForm() {
+            userInfo.classList.add('hidden');
+            subscriptionForm.classList.remove('hidden');
+        }
+
+        const form = document.getElementById('form');
+        const formSteps = [...document.querySelectorAll('.form-step')];
+        let formStepsNum = 0;
+
+        document.querySelectorAll('.btn-next').forEach(button => {
+            button.addEventListener('click', () => {
+                formStepsNum++;
+                updateFormSteps();
+            });
+        });
+
+        document.querySelectorAll('.btn-prev').forEach(button => {
+            button.addEventListener('click', () => {
+                formStepsNum--;
+                updateFormSteps();
+            });
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const service = document.getElementById('service').value;
+            const frequency = document.getElementById('frequency').value;
+            const address = document.getElementById('address').value;
+            const payment = document.getElementById('payment').value;
+            const serviceDetails = document.getElementById('service-details').value;
+            const preferredDate = document.getElementById('preferred-date').value;
+            const preferredTime = document.getElementById('preferred-time').value;
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const dob = document.getElementById('dob').value;
+            const gender = document.getElementById('gender').value;
+
+            subscriptionForm.classList.add('hidden');
+            successPage.classList.remove('hidden');
+
+            const updatesContent = document.getElementById('updates-content');
+            updatesContent.innerHTML = `
+                <h4>Subscription Confirmation</h4>
+                <p>Service: ${service}</p>
+                <p>Frequency: ${frequency}</p>
+                <p>Address: ${address}</p>
+                <p>Payment Method: ${payment}</p>
+                <p>Service Details: ${serviceDetails}</p>
+                <p>Preferred Date: ${preferredDate}</p>
+                <p>Preferred Time: ${preferredTime}</p>
+                <p>Full Name: ${fullname}</p>
+                <p>Email: ${email}</p>
+                <p>Phone: ${phone}</p>
+                <p>Date of Birth: ${dob}</p>
+                <p>Gender: ${gender}</p>
+                <p>Thank you for subscribing to our service!</p>
+            `;
+        });
+
+        function updateFormSteps() {
+            formSteps.forEach((formStep) => {
+                formStep.classList.contains('form-step-active') && formStep.classList.remove('form-step-active');
+            });
+            formSteps[formStepsNum].classList.add('form-step-active');
+        }
+
+        function toggleMenu() {
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showSection(sectionId) {
+            for (const section in sections) {
+                sections[section].classList.add('hidden');
+            }
+            sections[sectionId].classList.remove('hidden');
+            toggleMenu();
+        }
+    </script>
+</body>
+</html>
