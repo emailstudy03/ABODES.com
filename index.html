@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABODES Connect Service</title>
+    <title>Essential Services Subscription</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
@@ -14,18 +14,15 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            background-color: #f0f0f0;
-            background-image: url('background01.jpg');
+            background: url('background01.jpg') no-repeat center center fixed;
             background-size: cover;
-            background-position: center;
-            color: #333;
         }
 
-        header, footer {
+        header {
+            background-color: rgba(0, 168, 79, 0.9);
+            padding: 1em;
             text-align: center;
             color: white;
-            padding: 1em;
-            background: rgba(0, 0, 0, 0.7);
         }
 
         header img {
@@ -39,82 +36,88 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.9);
         }
 
-        h1, h2, h3 {
-            margin-top: 0;
-        }
-
-        #login-form, #signup-form, #user-info, #order-form, #success-page, #user-info-section, #order-detail, #receipt, #settings, #disclaimer {
-            background: #ffffff;
-            padding: 2em;
-            border-radius: 8px;
-            max-width: 500px;
-            margin: 1em auto;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin-bottom: 0.5em;
-            font-weight: bold;
-        }
-
-        input, select, textarea, button {
-            margin-bottom: 1em;
-            padding: 0.5em;
-            font-size: 1em;
-        }
-
-        textarea {
-            resize: vertical;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            padding: 0.75em;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .hidden {
+        section {
             display: none;
+            width: 100%;
+            max-width: 400px;
         }
 
-        .form-step {
-            display: none;
-        }
-
-        .form-step-active {
+        section.active {
             display: block;
         }
 
-        #updates {
-            margin-top: 2em;
-            width: 100%;
-            max-width: 500px;
+        h2 {
+            margin-top: 0;
+            color: #333;
         }
 
-        #updates-content {
-            background: #e9ecef;
+        form {
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5em;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.5em;
+            margin-bottom: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
             padding: 1em;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 4px;
+            background-color: #00a84f;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #008a3d;
+        }
+
+        .bottom-nav {
+            width: 100%;
+            background-color: #fff;
+            border-top: 1px solid #ccc;
+            display: flex;
+            justify-content: space-around;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            padding: 0.5em 0;
+        }
+
+        .bottom-nav a {
+            text-align: center;
+            color: #333;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        .bottom-nav a:hover, .bottom-nav a.active {
+            color: #00a84f;
+        }
+
+        .bottom-nav a i {
+            display: block;
+            font-size: 1.5em;
         }
 
         .success-message {
             text-align: center;
+            color: #4CAF50;
         }
 
         .success-message i {
@@ -122,73 +125,41 @@
             color: #4CAF50;
         }
 
-        .menu-button {
-            background-color: #333;
-            color: white;
-            padding: 1em;
-            border: none;
-            cursor: pointer;
-            position: fixed;
-            top: 1em;
-            right: 1em;
-            border-radius: 8px;
+        .success-message h2 {
+            margin: 0.5em 0;
         }
 
-        .menu {
+        .service-option img {
+            width: 40px;
+            height: 40px;
             display: none;
-            position: fixed;
-            top: 4em;
-            right: 1em;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-            z-index: 1000;
-        }
-
-        .menu a {
-            display: block;
-            padding: 1em;
-            color: #333;
-            text-decoration: none;
-            border-bottom: 1px solid #eee;
-        }
-
-        .menu a:hover {
-            background-color: #f0f0f0;
         }
     </style>
 </head>
 <body>
     <header>
         <img src="logo01.jpg" alt="Hello Tukang">
-        <h1>Welcome to Hello Tukang</h1>
     </header>
-    <button class="menu-button" onclick="toggleMenu()">Menu</button>
-    <nav class="menu" id="menu">
-        <a href="#" onclick="showSection('user-info-section')">User information</a>
-        <a href="#" onclick="showSection('order-detail')">Order detail</a>
-        <a href="#" onclick="showSection('receipt')">Receipt</a>
-        <a href="#" onclick="showSection('settings')">Setting</a>
-        <a href="#" onclick="showSection('disclaimer')">Disclaimer</a>
-    </nav>
     <main>
-        <section id="welcome-page">
-            <h2>Please LOGIN to get started</h2>
+        <section id="welcome-page" class="active">
+            <h2>Welcome to Hello Tukang</h2>
             <button onclick="showLoginPage()">Get Started</button>
         </section>
-        <section id="login-form" class="hidden">
+        <section id="login-form">
             <h2>User Login</h2>
             <form id="login">
                 <label for="login-email">Email:</label>
                 <input type="email" id="login-email" name="email" required>
                 <label for="login-password">Password:</label>
                 <input type="password" id="login-password" name="password" required>
+                <label for="tac">TAC:</label>
+                <input type="text" id="tac" name="tac" required>
+                <button type="button" onclick="requestTac()">Request TAC</button>
                 <button type="button" onclick="loginUser()">Login</button>
                 <p>Don't have an account? <a href="#" onclick="showSignupPage()">Sign up</a></p>
             </form>
         </section>
-        <section id="signup-form" class="hidden">
+        <section id="signup-form">
             <h2>New User Signup</h2>
             <form id="signup">
                 <label for="signup-fullname">Full Name:</label>
@@ -200,245 +171,247 @@
                 <button type="button" onclick="signupUser()">Sign Up</button>
             </form>
         </section>
-        <section id="user-info" class="hidden">
+        <section id="user-info">
             <h2>Registered User Information</h2>
             <p id="user-details"></p>
-            <button onclick="showSubscriptionForm()">Start Ordering</button>
+            <button onclick="showSubscriptionForm()">Subscribe to Services</button>
         </section>
-        <section id="subscription-form" class="hidden">
+        <section id="subscription-form">
             <h2>Customize Your Service Order</h2>
             <form id="form">
-                <div class="form-step form-step-active">
-                    <label for="service">Select Service:</label>
-                    <select id="service" name="service" required>
-                        <option value="cleaning">Cleaning</option>
-                        <option value="maintenance">Maintenance</option>
-                        <option value="plumbing">Plumbing</option>
-                        <option value="electrical">Electrical</option>
-                        <option value="emergency">Emergency Services</option>
-                    </select>
-                    <button type="button" class="btn-next">Next</button>
+                <label for="service">Select Service:</label>
+                <select id="service" name="service" onchange="showServiceImage()" required>
+                    <option value="">-- Select Service --</option>
+                    <option value="cleaning">Cleaning</option>
+                    <option value="maintenance">Maintenance</option>
+                    <option value="plumbing">Plumbing</option>
+                    <option value="electrical">Electrical</option>
+                    <option value="emergency">Emergency Services</option>
+                </select>
+                <div class="service-option">
+                    <img id="service01.jpg" src="" alt="Service Image">
                 </div>
-                <div class="form-step">
-                    <label for="frequency">Frequency:</label>
-                    <select id="frequency" name="frequency" required>
-                        <option value="one-time">One-time</option>
-                        <option value="weekly">Weekly</option>
-                        <option value="monthly">Monthly</option>
-                    </select>
-                    <button type="button" class="btn-prev">Previous</button>
-                    <button type="button" class="btn-next">Next</button>
-                </div>
-                <div class="form-step">
-                    <label for="address">Service Address:</label>
-                    <input type="text" id="address" name="address" required>
-                    <button type="button" class="btn-prev">Previous</button>
-                    <button type="button" class="btn-next">Next</button>
-                </div>
-                <div class="form-step">
-                    <label for="payment">Payment Method:</label>
-                    <input type="text" id="payment" name="payment" required>
-                    <button type="button" class="btn-prev">Previous</button>
-                    <button type="button" class="btn-next">Next</button>
-                </div>
-                <div class="form-step">
-                    <label for="service-details">Service Details:</label>
-                    <textarea id="service-details" name="service-details" rows="4" required placeholder="Provide additional details about the service required..."></textarea>
-                    <label for="preferred-date">Preferred Date:</label>
-                    <input type="date" id="preferred-date" name="preferred-date" required>
-                    <label for="preferred-time">Preferred Time:</label>
-                    <input type="time" id="preferred-time" name="preferred-time" required>
-                    <button type="button" class="btn-prev">Previous</button>
-                    <button type="button" class="btn-next">Next</button>
-                </div>
-                <div class="form-step">
-                    <label for="fullname">Full Name:</label>
-                    <input type="text" id="fullname" name="fullname" required>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                    <label for="phone">Phone Number:</label>
-                    <input type="tel" id="phone" name="phone" required>
-                    <label for="dob">Date of Birth:</label>
-                    <input type="date" id="dob" name="dob" required>
-                    <label for="gender">Gender:</label>
-                    <select id="gender" name="gender" required>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                    </select>
-                    <button type="button" class="btn-prev">Previous</button>
-                    <button type="submit">Subscribe</button>
-                </div>
+                <label for="frequency">Frequency:</label>
+                <select id="frequency" name="frequency" required>
+                    <option value="one-time">One-time</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+                <label for="address">Service Address:</label>
+                <input type="text" id="street" name="street" placeholder="Street Address" required>
+                <input type="text" id="postcode" name="postcode" placeholder="Postcode" required>
+                <input type="text" id="state" name="state" placeholder="State" required>
+                <label for="payment">Payment Method:</label>
+                <select id="payment" name="payment" required>
+                    <option value="paypal">PayPal</option>
+                    <option value="credit-card">Credit/Debit Card</option>
+                    <option value="fpx">FPX Payment</option>
+                </select>
+                <label for="service-details">Service Details:</label>
+                <textarea id="service-details" name="service-details" rows="4" required placeholder="Provide additional details about the service required..."></textarea>
+                <label for="preferred-date">Preferred Date:</label>
+                <input type="date" id="preferred-date" name="preferred-date" required>
+                <label for="preferred-time">Preferred Time:</label>
+                <input type="time" id="preferred-time" name="preferred-time" required>
+                <label for="fullname">Full Name:</label>
+                <input type="text" id="fullname" name="fullname" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" required>
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+                <button type="submit">Submit</button>
             </form>
         </section>
-        <section id="updates" class="hidden">
-            <h2>Real-Time Updates</h2>
-            <div id="updates-content"></div>
-        </section>
-        <section id="success-page" class="hidden">
+        <section id="success-page">
             <div class="success-message">
                 <i class="fas fa-thumbs-up"></i>
-                <h2>Order Successful!</h2>
-                <p>Thank you for ordering our service! We will keep in touch soon.</p>
+                <h2>Service Order Successful!</h2>
+                <div id="updates-content"></div>
             </div>
         </section>
-        <section id="user-info-section" class="hidden">
-            <h2>User Information</h2>
-            <p>Details about the user will be displayed here.</p>
+        <section id="order-details">
+            <h2>Order Details</h2>
+            <p>Your order details will appear here.</p>
+            <p id="order-number"></p>
         </section>
-        <section id="order-detail" class="hidden">
-            <h2>Order Detail</h2>
-            <p>Details about the order will be displayed here.</p>
-        </section>
-        <section id="receipt" class="hidden">
-            <h2>Receipt</h2>
-            <p>Details about the receipt will be displayed here.</p>
-        </section>
-        <section id="settings" class="hidden">
+        <section id="settings">
             <h2>Settings</h2>
-            <p>Settings can be configured here.</p>
+            <p>Settings options will appear here.</p>
         </section>
-        <section id="disclaimer" class="hidden">
+        <section id="receipt">
+            <h2>Receipt</h2>
+            <p>Your receipt will appear here.</p>
+        </section>
+        <section id="disclaimer">
             <h2>Disclaimer</h2>
-            <p>Disclaimer information will be displayed here.</p>
+            <p>Disclaimer information will appear here.</p>
         </section>
     </main>
-    <footer>
-        <p>&copy; 2024 ENCOM Incorporated. All rights reserved.</p>
-    </footer>
+    <div class="bottom-nav">
+        <a href="#" onclick="showUserInfo(event)" class="active"><i class="fas fa-user"></i> User Info</a>
+        <a href="#" onclick="showOrderDetails(event)"><i class="fas fa-box"></i> Order Details</a>
+        <a href="#" onclick="showSettings(event)"><i class="fas fa-cog"></i> Settings</a>
+        <a href="#" onclick="showReceipt(event)"><i class="fas fa-receipt"></i> Receipt</a>
+        <a href="#" onclick="showDisclaimer(event)"><i class="fas fa-info-circle"></i> Disclaimer</a>
+    </div>
     <script>
-        const welcomePage = document.getElementById('welcome-page');
-        const loginForm = document.getElementById('login-form');
-        const signupForm = document.getElementById('signup-form');
-        const userInfo = document.getElementById('user-info');
-        const subscriptionForm = document.getElementById('subscription-form');
-        const updates = document.getElementById('updates');
-        const successPage = document.getElementById('success-page');
-        const menu = document.getElementById('menu');
-        const sections = {
-            'user-info-section': document.getElementById('user-info-section'),
-            'order-detail': document.getElementById('order-detail'),
-            'receipt': document.getElementById('receipt'),
-            'settings': document.getElementById('settings'),
-            'disclaimer': document.getElementById('disclaimer')
-        };
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.bottom-nav a');
 
-        function showLoginPage() {
-            welcomePage.classList.add('hidden');
-            loginForm.classList.remove('hidden');
-        }
-
-        function showSignupPage() {
-            loginForm.classList.add('hidden');
-            signupForm.classList.remove('hidden');
-        }
-
-        function loginUser() {
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-
-            if (email && password) {
-                document.getElementById('user-details').innerHTML = `
-                    <p>Email: ${email}</p>
-                `;
-                loginForm.classList.add('hidden');
-                userInfo.classList.remove('hidden');
+            function hideAllSections() {
+                sections.forEach(section => section.classList.remove('active'));
             }
-        }
 
-        function signupUser() {
-            const fullname = document.getElementById('signup-fullname').value;
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
+            function setActiveNavLink(target) {
+                navLinks.forEach(link => link.classList.remove('active'));
+                target.classList.add('active');
+            }
 
-            if (fullname && email && password) {
-                document.getElementById('user-details').innerHTML = `
+            window.showLoginPage = () => {
+                hideAllSections();
+                document.getElementById('login-form').classList.add('active');
+            };
+
+            window.showSignupPage = () => {
+                hideAllSections();
+                document.getElementById('signup-form').classList.add('active');
+            };
+
+            window.loginUser = () => {
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                const tac = document.getElementById('tac').value;
+
+                if (email && password && tac) {
+                    document.getElementById('user-details').innerHTML = `
+                        <p>Email: ${email}</p>
+                    `;
+                    hideAllSections();
+                    document.getElementById('user-info').classList.add('active');
+                }
+            };
+
+            window.signupUser = () => {
+                const fullname = document.getElementById('signup-fullname').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+
+                if (fullname && email && password) {
+                    document.getElementById('user-details').innerHTML = `
+                        <p>Full Name: ${fullname}</p>
+                        <p>Email: ${email}</p>
+                    `;
+                    hideAllSections();
+                    document.getElementById('user-info').classList.add('active');
+                }
+            };
+
+            window.showSubscriptionForm = () => {
+                hideAllSections();
+                document.getElementById('subscription-form').classList.add('active');
+            };
+
+            window.showUserInfo = (event) => {
+                hideAllSections();
+                document.getElementById('user-info').classList.add('active');
+                setActiveNavLink(event.target);
+            };
+
+            window.showOrderDetails = (event) => {
+                hideAllSections();
+                document.getElementById('order-details').classList.add('active');
+                setActiveNavLink(event.target);
+            };
+
+            window.showSettings = (event) => {
+                hideAllSections();
+                document.getElementById('settings').classList.add('active');
+                setActiveNavLink(event.target);
+            };
+
+            window.showReceipt = (event) => {
+                hideAllSections();
+                document.getElementById('receipt').classList.add('active');
+                setActiveNavLink(event.target);
+            };
+
+            window.showDisclaimer = (event) => {
+                hideAllSections();
+                document.getElementById('disclaimer').classList.add('active');
+                setActiveNavLink(event.target);
+            };
+
+            const form = document.getElementById('form');
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const service = document.getElementById('service').value;
+                const frequency = document.getElementById('frequency').value;
+                const street = document.getElementById('street').value;
+                const postcode = document.getElementById('postcode').value;
+                const state = document.getElementById('state').value;
+                const payment = document.getElementById('payment').value;
+                const serviceDetails = document.getElementById('service-details').value;
+                const preferredDate = document.getElementById('preferred-date').value;
+                const preferredTime = document.getElementById('preferred-time').value;
+                const fullname = document.getElementById('fullname').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const dob = document.getElementById('dob').value;
+                const gender = document.getElementById('gender').value;
+
+                hideAllSections();
+                document.getElementById('success-page').classList.add('active');
+
+                const orderNumber = Math.floor(Math.random() * 1000000);
+
+                const updatesContent = document.getElementById('updates-content');
+                updatesContent.innerHTML = `
+                    <h4>Order Confirmation</h4>
+                    <p>Order Number: ${orderNumber}</p>
+                    <p>Service: ${service}</p>
+                    <p>Frequency: ${frequency}</p>
+                    <p>Address: ${street}, ${postcode}, ${state}</p>
+                    <p>Payment Method: ${payment}</p>
+                    <p>Service Details: ${serviceDetails}</p>
+                    <p>Preferred Date: ${preferredDate}</p>
+                    <p>Preferred Time: ${preferredTime}</p>
                     <p>Full Name: ${fullname}</p>
                     <p>Email: ${email}</p>
+                    <p>Phone: ${phone}</p>
+                    <p>Date of Birth: ${dob}</p>
+                    <p>Gender: ${gender}</p>
+                    <p>Thank you for subscribing to our service! We will keep in touch soon</p>
                 `;
-                signupForm.classList.add('hidden');
-                userInfo.classList.remove('hidden');
-            }
-        }
 
-        function showSubscriptionForm() {
-            userInfo.classList.add('hidden');
-            subscriptionForm.classList.remove('hidden');
-        }
-
-        const form = document.getElementById('form');
-        const formSteps = [...document.querySelectorAll('.form-step')];
-        let formStepsNum = 0;
-
-        document.querySelectorAll('.btn-next').forEach(button => {
-            button.addEventListener('click', () => {
-                formStepsNum++;
-                updateFormSteps();
+                document.getElementById('order-number').innerText = `Order Number: ${orderNumber}`;
             });
+
+            window.showServiceImage = () => {
+                const serviceImage = document.getElementById('service-image');
+                const service = document.getElementById('service').value;
+
+                if (service) {
+                    serviceImage.src = `${service}-icon.png`;
+                    serviceImage.style.display = 'block';
+                } else {
+                    serviceImage.style.display = 'none';
+                }
+            };
+
+            window.requestTac = () => {
+                alert('TAC requested. Please check your phone.');
+            };
         });
-
-        document.querySelectorAll('.btn-prev').forEach(button => {
-            button.addEventListener('click', () => {
-                formStepsNum--;
-                updateFormSteps();
-            });
-        });
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const service = document.getElementById('service').value;
-            const frequency = document.getElementById('frequency').value;
-            const address = document.getElementById('address').value;
-            const payment = document.getElementById('payment').value;
-            const serviceDetails = document.getElementById('service-details').value;
-            const preferredDate = document.getElementById('preferred-date').value;
-            const preferredTime = document.getElementById('preferred-time').value;
-            const fullname = document.getElementById('fullname').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const dob = document.getElementById('dob').value;
-            const gender = document.getElementById('gender').value;
-
-            subscriptionForm.classList.add('hidden');
-            successPage.classList.remove('hidden');
-
-            const updatesContent = document.getElementById('updates-content');
-            updatesContent.innerHTML = `
-                <h4>Subscription Confirmation</h4>
-                <p>Service: ${service}</p>
-                <p>Frequency: ${frequency}</p>
-                <p>Address: ${address}</p>
-                <p>Payment Method: ${payment}</p>
-                <p>Service Details: ${serviceDetails}</p>
-                <p>Preferred Date: ${preferredDate}</p>
-                <p>Preferred Time: ${preferredTime}</p>
-                <p>Full Name: ${fullname}</p>
-                <p>Email: ${email}</p>
-                <p>Phone: ${phone}</p>
-                <p>Date of Birth: ${dob}</p>
-                <p>Gender: ${gender}</p>
-                <p>Thank you for subscribing to our service!</p>
-            `;
-        });
-
-        function updateFormSteps() {
-            formSteps.forEach((formStep) => {
-                formStep.classList.contains('form-step-active') && formStep.classList.remove('form-step-active');
-            });
-            formSteps[formStepsNum].classList.add('form-step-active');
-        }
-
-        function toggleMenu() {
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function showSection(sectionId) {
-            for (const section in sections) {
-                sections[section].classList.add('hidden');
-            }
-            sections[sectionId].classList.remove('hidden');
-            toggleMenu();
-        }
     </script>
 </body>
 </html>
