@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Essential Services Subscription</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,7 +43,7 @@
         section {
             display: none;
             width: 100%;
-            max-width: 400px;
+            max-width: 800px;
         }
 
         section.active {
@@ -54,36 +55,64 @@
             color: #333;
         }
 
-        form {
-            width: 100%;
+        .service-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1em;
+            justify-content: space-between;
         }
 
-        label {
-            display: block;
-            margin-bottom: 0.5em;
-            color: #333;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 0.5em;
-            margin-bottom: 1em;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        button {
-            width: 100%;
+        .service-item {
+            width: 48%;
+            background-color: #f9f9f9;
             padding: 1em;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .service-item img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .company-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .company-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1em;
+            padding: 1em;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .company-details {
+            flex: 1;
+            margin-right: 1em;
+        }
+
+        .company-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5em;
+        }
+
+        .company-actions button {
+            padding: 0.5em;
             border: none;
             border-radius: 4px;
             background-color: #00a84f;
             color: white;
-            font-size: 1em;
+            font-size: 0.9em;
             cursor: pointer;
         }
 
-        button:hover {
+        .company-actions button:hover {
             background-color: #008a3d;
         }
 
@@ -114,26 +143,6 @@
             display: block;
             font-size: 1.5em;
         }
-
-        .success-message {
-            text-align: center;
-            color: #4CAF50;
-        }
-
-        .success-message i {
-            font-size: 4em;
-            color: #4CAF50;
-        }
-
-        .success-message h2 {
-            margin: 0.5em 0;
-        }
-
-        .service-option img {
-            width: 40px;
-            height: 40px;
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -145,6 +154,7 @@
             <h2>Welcome to Hello Tukang</h2>
             <button onclick="showLoginPage()">Get Started</button>
         </section>
+
         <section id="login-form">
             <h2>User Login</h2>
             <form id="login">
@@ -159,6 +169,7 @@
                 <p>Don't have an account? <a href="#" onclick="showSignupPage()">Sign up</a></p>
             </form>
         </section>
+
         <section id="signup-form">
             <h2>New User Signup</h2>
             <form id="signup">
@@ -171,246 +182,344 @@
                 <button type="button" onclick="signupUser()">Sign Up</button>
             </form>
         </section>
-        <section id="user-info">
-            <h2>Registered User Information</h2>
-            <p id="user-details"></p>
-            <button onclick="showSubscriptionForm()">Subscribe to Services</button>
-        </section>
-        <section id="subscription-form">
-            <h2>Customize Your Service Order</h2>
-            <form id="form">
-                <label for="service">Select Service:</label>
-                <select id="service" name="service" onchange="showServiceImage()" required>
-                    <option value="">-- Select Service --</option>
-                    <option value="cleaning">Cleaning</option>
-                    <option value="maintenance">Maintenance</option>
-                    <option value="plumbing">Plumbing</option>
-                    <option value="electrical">Electrical</option>
-                    <option value="emergency">Emergency Services</option>
-                </select>
-                <div class="service-option">
-                    <img id="service01.jpg" src="" alt="Service Image">
-                </div>
-                <label for="frequency">Frequency:</label>
-                <select id="frequency" name="frequency" required>
-                    <option value="one-time">One-time</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
-                </select>
-                <label for="address">Service Address:</label>
-                <input type="text" id="street" name="street" placeholder="Street Address" required>
+
+        <section id="profile-page">
+            <h2>Create Profile</h2>
+            <form id="profile-form">
+                <label for="contact-info">Contact Information:</label>
+                <input type="text" id="contact-info" name="contact-info" placeholder="Phone Number" required>
+                <label for="address">Address:</label>
+                <input type="text" id="street" name="street" placeholder="Street Name" required>
                 <input type="text" id="postcode" name="postcode" placeholder="Postcode" required>
                 <input type="text" id="state" name="state" placeholder="State" required>
-                <label for="payment">Payment Method:</label>
-                <select id="payment" name="payment" required>
-                    <option value="paypal">PayPal</option>
-                    <option value="credit-card">Credit/Debit Card</option>
-                    <option value="fpx">FPX Payment</option>
-                </select>
-                <label for="service-details">Service Details:</label>
-                <textarea id="service-details" name="service-details" rows="4" required placeholder="Provide additional details about the service required..."></textarea>
-                <label for="preferred-date">Preferred Date:</label>
-                <input type="date" id="preferred-date" name="preferred-date" required>
-                <label for="preferred-time">Preferred Time:</label>
-                <input type="time" id="preferred-time" name="preferred-time" required>
-                <label for="fullname">Full Name:</label>
-                <input type="text" id="fullname" name="fullname" required>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-                <label for="phone">Phone Number:</label>
-                <input type="tel" id="phone" name="phone" required>
-                <label for="dob">Date of Birth:</label>
-                <input type="date" id="dob" name="dob" required>
-                <label for="gender">Gender:</label>
-                <select id="gender" name="gender" required>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                </select>
-                <button type="submit">Submit</button>
+                <label for="preferences">Preferences:</label>
+                <textarea id="preferences" name="preferences" rows="4" placeholder="Your preferences..."></textarea>
+                <label for="saved-services">Frequently Used Services/Providers:</label>
+                <textarea id="saved-services" name="saved-services" rows="4" placeholder="List your frequently used services or providers..."></textarea>
+                <button type="button" onclick="saveProfile()">Save Profile</button>
             </form>
         </section>
-        <section id="success-page">
-            <div class="success-message">
-                <i class="fas fa-thumbs-up"></i>
-                <h2>Service Order Successful!</h2>
-                <div id="updates-content"></div>
+
+        <section id="service-request">
+            <h2>Submit Service Request</h2>
+            <form id="request-form">
+                <label for="service-type">Service Type:</label>
+                <select id="service-type" name="service-type" required>
+                    <option value="plumbing">Plumbing</option>
+                    <option value="repair work">Repair Work</option>
+                    <option value="cleaning">Cleaning</option>
+                    <option value="electrical service">Electrical Service</option>
+                    <option value="installation">Installation</option>
+                    <option value="painting">Painting</option>
+                    <option value="air-conditioning service">Air-conditioning Service</option>
+                    <option value="grass cutting">Grass cutting</option>
+                    <option value="pest control">Pest control</option>
+                    <option value="other services">Other services</option
+                    <!-- More options can be added here -->
+                </select>
+                <label for="preferred-time">Preferred Time:</label>
+                <input type="datetime-local" id="preferred-time" name="preferred-time" required>
+                <label for="instructions">Specific Instructions:</label>
+                <textarea id="instructions" name="instructions" rows="4" placeholder="Provide any specific instructions..."></textarea>
+                <button type="button" onclick="submitServiceRequest()">Submit Request</button>
+            </form>
+        </section>
+
+        <section id="upload-media">
+            <h2>Upload Media</h2>
+            <form id="media-upload-form" enctype="multipart/form-data">
+                <label for="media">Upload Images or Videos:</label>
+                <input type="file" id="media" name="media" accept="image/*,video/*" multiple required>
+                <button type="button" onclick="uploadMedia()">Upload</button>
+            </form>
+        </section>
+
+        <section id="service-providers">
+            <h2>Service Providers</h2>
+            <ul class="company-list">
+                <!-- Example Company Listing -->
+                <li>
+                    <div class="company-details">
+                        <p><strong>Company A</strong></p>
+                        <p>Distance: 2 km</p>
+                        <p>Rating: 4.5/5</p>
+                        <p>Price: Negotiable</p>
+                    </div>
+                    <div class="company-actions">
+                        <button onclick="bookNow('Company A')">Book Now</button>
+                        <button onclick="getQuote('Company A')">Get Quote</button>
+                    </div>
+                </li>
+                <!-- Repeat similar structure for more companies -->
+            </ul>
+        </section>
+
+        <section id="service-status">
+            <h2>Service Status</h2>
+            <div>
+                <p>Your service status details will appear here.</p>
+                <p>QR Code for Verification:</p>
+                <canvas id="qr-code"></canvas>
             </div>
         </section>
-        <section id="order-details">
-            <h2>Order Details</h2>
-            <p>Your order details will appear here.</p>
-            <p id="order-number"></p>
+
+        <section id="service-list">
+            <h2>Services Provided</h2>
+            <div class="service-grid">
+                <!-- Example Service Item -->
+                <div class="service-item" onclick="showServiceDetail('plumbing')">
+                    <img src="depositphotos_28608021-stock-photo-young-plumber-fixing-a-sink.jpg" alt="Plumbing">
+                    <p>Plumbing</p>
+                </div>
+                <div class="service-item" onclick="showServiceDetail('repair-work')">
+                    <img src="0656.jpg_wh860.jpg" alt="Repair Work">
+                    <p>Repair Work</p>
+                </div>
+                <div class="service-item" onclick="showServiceDetail('cleaning')">
+                    <img src="depositphotos_334283806-stock-photo-gloved-hand-cleaning-window-rag.jpg" alt="Cleaning">
+                    <p>Cleaning</p>
+                </div>
+                <div class="service-item" onclick="showServiceDetail('electrical')">
+                    <img src="360_F_170179753_piUSFjn4xlwAKaIU14gs6FnCVij2wckc.jpg" alt="Electrical Services">
+                    <p>Electrical Services</p>
+                </div>
+                <div class="service-item" onclick="showServiceDetail('installation')">
+                    <img src="360_F_365065472_wQg1hv0k9zYJnwnFMQd1iwpxCAn0anEM.jpg" alt="Installation">
+                    <p>Installation</p>
+                </div>
+                <div class="service-item" onclick="showServiceDetail('painting')">
+                    <img src="istockphoto-186741762-612x612.jpg" alt="Painting">
+                    <p>Painting</p>
+                </div>
+                <div class="service-item" onclick="showServiceDetail('air-conditioning')">
+                    <img src="depositphotos_62821141-stock-photo-air-conditioner.jpg" alt="Air-Conditioning Services">
+                    <p>Air-Conditioning Services</p>
+                </div>
+                <div class="service-item" onclick="showServiceDetail('grass-cutting')">
+                    <img src="360_F_241043879_Eyuw9vhMv09SEDUMXceWwe6g5ELcOSGS.jpg" alt="Grass Cutting">
+                    <p>Grass Cutting</p>
+                </div>
+                <div class="service-item" onclick="showServiceDetail('pest-control')">
+                    <img src="istockphoto-1341381731-612x612.jpg" alt="Pest Control">
+                    <p>Pest Control</p>
+                </div>
+                <div class="service-item" onclick="showServiceDetail('other-services')">
+                    <img src="service01.jpg" alt="Other Services">
+                    <p>Other Services</p>
+                </div>
+            </div>
         </section>
-        <section id="settings">
-            <h2>Settings</h2>
-            <p>Settings options will appear here.</p>
+
+        <section id="service-detail-plumbing">
+            <h2>Plumbing Services</h2>
+            <ul class="company-list">
+                <li>
+                    <div class="company-details">
+                        <p><strong>Plumbing Company A</strong></p>
+                        <p>Distance: 2 km</p>
+                        <p>Rating: 4.5/5</p>
+                        <p>Price: Negotiable</p>
+                    </div>
+                    <div class="company-actions">
+                        <button onclick="bookNow('Plumbing Company A')">Book Now</button>
+                        <button onclick="getQuote('Plumbing Company A')">Get Quote</button>
+                    </div>
+                </li>
+                <li>
+                    <div class="company-details">
+                        <p><strong>Plumbing Company B</strong></p>
+                        <p>Distance: 5 km</p>
+                        <p>Rating: 4.0/5</p>
+                        <p>Price: Fixed Rate</p>
+                    </div>
+                    <div class="company-actions">
+                        <button onclick="bookNow('Plumbing Company B')">Book Now</button>
+                        <button onclick="getQuote('Plumbing Company B')">Get Quote</button>
+                    </div>
+                </li>
+                <li>
+		    <div class="company-details">
+                        <p><strong>Plumbing Company C</strong></p>
+                        <p>Distance: 10 km</p>
+                        <p>Rating: 3.5/5</p>
+                        <p>Price: Fixed Rate</p>
+                    </div>
+                    <div class="company-actions">
+                        <button onclick="bookNow('Plumbing Company C')">Book Now</button>
+                        <button onclick="getQuote('Plumbing Company C')">Get Quote</button>
+                    </div>
+                </li>
+                <!-- Add more companies as needed -->
+            </ul>
         </section>
-        <section id="receipt">
-            <h2>Receipt</h2>
-            <p>Your receipt will appear here.</p>
+
+        <section id="service-detail-repair-work">
+            <h2>Repair Work</h2>
+            <ul class="company-list">
+                <li>
+                    <div class="company-details">
+                        <p><strong>Repair Work Company A</strong></p>
+                        <p>Distance: 3.4 km</p>
+                        <p>Rating: 4.2/5</p>
+                        <p>Price: Negotiable</p>
+                    </div>
+                    <div class="company-actions">
+                        <button onclick="bookNow('Repair Work Company A')">Book Now</button>
+                        <button onclick="getQuote('Repair Work Company A')">Get Quote</button>
+                    </div>
+                </li>
+                <li>
+                    <div class="company-details">
+                        <p><strong>Repair Work Company B</strong></p>
+                        <p>Distance: 1.6 km</p>
+                        <p>Rating: 4.8/5</p>
+                        <p>Price: Fixed Rate</p>
+                    </div>
+                    <div class="company-actions">
+                        <button onclick="bookNow('Repair Work Company B')">Book Now</button>
+                        <button onclick="getQuote('Repair Work Company B')">Get Quote</button>
+                    </div>
+                </li>
+                <li>
+		    <div class="company-details">
+                        <p><strong>Repair Work Company C</strong></p>
+                        <p>Distance: 8.4 km</p>
+                        <p>Rating: 3.0/5</p>
+                        <p>Price: Fixed Rate</p>
+                    </div>
+                    <div class="company-actions">
+                        <button onclick="bookNow('Repair Work Company C')">Book Now</button>
+                        <button onclick="getQuote('Repair Work Company C')">Get Quote</button>
+                    </div>
+                </li>
+                <!-- Add more companies as needed -->
+            </ul>
         </section>
-        <section id="disclaimer">
-            <h2>Disclaimer</h2>
-            <p>Disclaimer information will appear here.</p>
-        </section>
+
+        <section id="service-detail-cleaning">
+            <h2>Cleaning</h2>
+            <ul class="company-list">
+                <li>
+                    <div class="company-details">
+                        <p><strong>Cleaning Company A</strong></p>
+                        <p>Distance: 3.4 km</p>
+                        <p>Rating: 4.2/5</p>
+                        <p>Price: Negotiable</p>
+                    </div>
+                    <div class="company-actions">
+                        <button onclick="bookNow('Cleaning Company A')">Book Now</button>
+                        <button onclick="getQuote('Cleaning Company A')">Get Quote</button>
+                    </div>
+                </li>
+                <li>
+                    <div class="company-details">
+                        <p><strong>Cleaning Company B</strong></p>
+                        <p>Distance: 1.6 km</p>
+                        <p>Rating: 4.8/5</p>
+                        <p>Price: Fixed Rate</p>
+                    </div>
+                    <div class="company-actions">
+                        <button onclick="bookNow('Cleaning Company B')">Book Now</button>
+                        <button onclick="getQuote('Cleaning Company B')">Get Quote</button>
+                    </div>
+                </li>
+                <li>
+		    <div class="company-details">
+                        <p><strong>Cleaning Company C</strong></p>
+                        <p>Distance: 8.4 km</p>
+                        <p>Rating: 3.0/5</p>
+                        <p>Price: Fixed Rate</p>
+                    </div>
+                    <div class="company-actions">
+                        <button onclick="bookNow('Cleaning Company C')">Book Now</button>
+                        <button onclick="getQuote('Cleaning Company C')">Get Quote</button>
+                    </div>
+                </li>
+                <!-- Add more companies as needed -->
+            </ul>
+        <!-- Repeat similar structure for other services (repair work, cleaning, etc.) -->
+
     </main>
-    <div class="bottom-nav">
-        <a href="#" onclick="showUserInfo(event)" class="active"><i class="fas fa-user"></i> User Info</a>
-        <a href="#" onclick="showOrderDetails(event)"><i class="fas fa-box"></i> Order Details</a>
-        <a href="#" onclick="showSettings(event)"><i class="fas fa-cog"></i> Settings</a>
-        <a href="#" onclick="showReceipt(event)"><i class="fas fa-receipt"></i> Receipt</a>
-        <a href="#" onclick="showDisclaimer(event)"><i class="fas fa-info-circle"></i> Disclaimer</a>
-    </div>
+
+    <nav class="bottom-nav">
+        <a href="#" id="nav-home" class="active" onclick="showSection('welcome-page')"><i class="fas fa-home"></i> Home</a>
+        <a href="#" id="nav-login" onclick="showSection('login-form')"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="#" id="nav-signup" onclick="showSection('signup-form')"><i class="fas fa-user-plus"></i> Sign Up</a>
+        <a href="#" id="nav-profile" onclick="showSection('profile-page')"><i class="fas fa-user"></i> Profile</a>
+        <a href="#" id="nav-request" onclick="showSection('service-request')"><i class="fas fa-cogs"></i> Request Service</a>
+        <a href="#" id="nav-upload" onclick="showSection('upload-media')"><i class="fas fa-upload"></i> Upload Media</a>
+        <a href="#" id="nav-providers" onclick="showSection('service-providers')"><i class="fas fa-building"></i> Providers</a>
+        <a href="#" id="nav-status" onclick="showSection('service-status')"><i class="fas fa-info-circle"></i> Status</a>
+        <a href="#" id="nav-services" onclick="showSection('service-list')"><i class="fas fa-list"></i> Services</a>
+    </nav>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        function showSection(sectionId) {
             const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('.bottom-nav a');
-
-            function hideAllSections() {
-                sections.forEach(section => section.classList.remove('active'));
-            }
-
-            function setActiveNavLink(target) {
-                navLinks.forEach(link => link.classList.remove('active'));
-                target.classList.add('active');
-            }
-
-            window.showLoginPage = () => {
-                hideAllSections();
-                document.getElementById('login-form').classList.add('active');
-            };
-
-            window.showSignupPage = () => {
-                hideAllSections();
-                document.getElementById('signup-form').classList.add('active');
-            };
-
-            window.loginUser = () => {
-                const email = document.getElementById('login-email').value;
-                const password = document.getElementById('login-password').value;
-                const tac = document.getElementById('tac').value;
-
-                if (email && password && tac) {
-                    document.getElementById('user-details').innerHTML = `
-                        <p>Email: ${email}</p>
-                    `;
-                    hideAllSections();
-                    document.getElementById('user-info').classList.add('active');
+            sections.forEach(section => {
+                section.classList.remove('active');
+                if (section.id === sectionId) {
+                    section.classList.add('active');
                 }
-            };
-
-            window.signupUser = () => {
-                const fullname = document.getElementById('signup-fullname').value;
-                const email = document.getElementById('signup-email').value;
-                const password = document.getElementById('signup-password').value;
-
-                if (fullname && email && password) {
-                    document.getElementById('user-details').innerHTML = `
-                        <p>Full Name: ${fullname}</p>
-                        <p>Email: ${email}</p>
-                    `;
-                    hideAllSections();
-                    document.getElementById('user-info').classList.add('active');
-                }
-            };
-
-            window.showSubscriptionForm = () => {
-                hideAllSections();
-                document.getElementById('subscription-form').classList.add('active');
-            };
-
-            window.showUserInfo = (event) => {
-                hideAllSections();
-                document.getElementById('user-info').classList.add('active');
-                setActiveNavLink(event.target);
-            };
-
-            window.showOrderDetails = (event) => {
-                hideAllSections();
-                document.getElementById('order-details').classList.add('active');
-                setActiveNavLink(event.target);
-            };
-
-            window.showSettings = (event) => {
-                hideAllSections();
-                document.getElementById('settings').classList.add('active');
-                setActiveNavLink(event.target);
-            };
-
-            window.showReceipt = (event) => {
-                hideAllSections();
-                document.getElementById('receipt').classList.add('active');
-                setActiveNavLink(event.target);
-            };
-
-            window.showDisclaimer = (event) => {
-                hideAllSections();
-                document.getElementById('disclaimer').classList.add('active');
-                setActiveNavLink(event.target);
-            };
-
-            const form = document.getElementById('form');
-
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const service = document.getElementById('service').value;
-                const frequency = document.getElementById('frequency').value;
-                const street = document.getElementById('street').value;
-                const postcode = document.getElementById('postcode').value;
-                const state = document.getElementById('state').value;
-                const payment = document.getElementById('payment').value;
-                const serviceDetails = document.getElementById('service-details').value;
-                const preferredDate = document.getElementById('preferred-date').value;
-                const preferredTime = document.getElementById('preferred-time').value;
-                const fullname = document.getElementById('fullname').value;
-                const email = document.getElementById('email').value;
-                const phone = document.getElementById('phone').value;
-                const dob = document.getElementById('dob').value;
-                const gender = document.getElementById('gender').value;
-
-                hideAllSections();
-                document.getElementById('success-page').classList.add('active');
-
-                const orderNumber = Math.floor(Math.random() * 1000000);
-
-                const updatesContent = document.getElementById('updates-content');
-                updatesContent.innerHTML = `
-                    <h4>Order Confirmation</h4>
-                    <p>Order Number: ${orderNumber}</p>
-                    <p>Service: ${service}</p>
-                    <p>Frequency: ${frequency}</p>
-                    <p>Address: ${street}, ${postcode}, ${state}</p>
-                    <p>Payment Method: ${payment}</p>
-                    <p>Service Details: ${serviceDetails}</p>
-                    <p>Preferred Date: ${preferredDate}</p>
-                    <p>Preferred Time: ${preferredTime}</p>
-                    <p>Full Name: ${fullname}</p>
-                    <p>Email: ${email}</p>
-                    <p>Phone: ${phone}</p>
-                    <p>Date of Birth: ${dob}</p>
-                    <p>Gender: ${gender}</p>
-                    <p>Thank you for subscribing to our service! We will keep in touch soon</p>
-                `;
-
-                document.getElementById('order-number').innerText = `Order Number: ${orderNumber}`;
             });
-
-            window.showServiceImage = () => {
-                const serviceImage = document.getElementById('service-image');
-                const service = document.getElementById('service').value;
-
-                if (service) {
-                    serviceImage.src = `${service}-icon.png`;
-                    serviceImage.style.display = 'block';
-                } else {
-                    serviceImage.style.display = 'none';
+            const navLinks = document.querySelectorAll('.bottom-nav a');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick').includes(sectionId)) {
+                    link.classList.add('active');
                 }
-            };
+            });
+        }
 
-            window.requestTac = () => {
-                alert('TAC requested. Please check your phone.');
-            };
+        function showLoginPage() {
+            showSection('login-form');
+        }
+
+        function showSignupPage() {
+            showSection('signup-form');
+        }
+
+        function requestTac() {
+            alert('TAC code requested');
+        }
+
+        function loginUser() {
+            alert('User logged in');
+        }
+
+        function signupUser() {
+            alert('User signed up');
+        }
+
+        function saveProfile() {
+            alert('Profile saved');
+        }
+
+        function submitServiceRequest() {
+            alert('Service request submitted');
+        }
+
+        function uploadMedia() {
+            alert('Media uploaded');
+        }
+
+        function bookNow(company) {
+            alert('Booked service with ' + company);
+        }
+
+        function getQuote(company) {
+            alert('Requested quote from ' + company);
+        }
+
+        function showServiceDetail(service) {
+            showSection('service-detail-' + service);
+        }
+
+        // QR Code Generation
+        const qr = new QRious({
+            element: document.getElementById('qr-code'),
+            size: 200,
+            value: 'Service Verification Code'
         });
     </script>
 </body>
